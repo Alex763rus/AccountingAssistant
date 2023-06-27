@@ -1,19 +1,39 @@
 package com.example.accountingassistant.service;
 
+import com.example.accountingassistant.enums.CalculateType;
+import com.example.accountingassistant.enums.calc.Form;
 import com.example.accountingassistant.model.CalcData;
+import com.example.accountingassistant.model.jpa.Calculation;
 import jakarta.annotation.PostConstruct;
 import lombok.val;
 import org.springframework.stereotype.Component;
 
-import javax.script.ScriptException;
+import java.util.Arrays;
 
 import static com.example.accountingassistant.constant.Constant.SPACE;
 
 @Component
 public class AccountingCalculationService {
 
-    @PostConstruct
-    public void init() throws ScriptException {
+    public int calculate(Calculation calculation, CalculateType calculateType) {
+        return gbaCalculate(
+                calculation.getForm().ordinal()
+                , calculation.getMode().ordinal()
+                , calculation.getEmployee().ordinal()
+                , calculation.getMoneyTurnover().ordinal()
+                , calculation.getOperation().ordinal()
+                , calculation.getNdsAgent()
+                , calculation.getNdflAgent()
+                , calculation.getAgencyContract().ordinal()
+                , calculation.getVed().ordinal()
+                , calculation.getDetached()
+                , calculation.getDocumentMatching().ordinal()
+                , calculateType.ordinal()
+        );
+    }
+
+
+    private void test() {
         testGbaCalculate(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8990, 9990, 14490);
         testGbaCalculate(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9990, 11490, 15490);
         testGbaCalculate(0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11990, 13990, 19990);
@@ -27,10 +47,9 @@ public class AccountingCalculationService {
         testGbaCalculate(0, 0, 0, 0, 0, 500, 77, 3, 1, 45, 0, 0, 77777, 666490, 129990);
         testGbaCalculate(0, 0, 0, 0, 0, 500, 77, 3, 1, 45, 5, 0, 77777, 681490, 144990);
         int i = 0;
-//        test();
     }
 
-    public String testGbaCalculate(int b1, int b2, int b3, int c1, int c2, int c3, int c4, int c5, int c6, int c7, int c8, int type, int expectedResult0, int expectedResult1, int expectedResult2) {
+    private String testGbaCalculate(int b1, int b2, int b3, int c1, int c2, int c3, int c4, int c5, int c6, int c7, int c8, int type, int expectedResult0, int expectedResult1, int expectedResult2) {
         val textResult = new StringBuilder();
         try {
 //            val result0 = gbaCalculate(b1, b2, b3, c1, c2, c3, c4, c5, c6, c7, c8, 0);
@@ -47,7 +66,7 @@ public class AccountingCalculationService {
         return textResult.toString();
     }
 
-    public int gbaCalculate(int b1, int b2, int b3, int c1, int c2, int c3, int c4, int c5, int c6, int c7, int c8, int type) {
+    private int gbaCalculate(int b1, int b2, int b3, int c1, int c2, int c3, int c4, int c5, int c6, int c7, int c8, int type) {
         ++b1;
         ++b2;
         ++b3;

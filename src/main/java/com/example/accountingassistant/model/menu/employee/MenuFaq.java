@@ -1,7 +1,8 @@
-package com.example.accountingassistant.model.menu;
+package com.example.accountingassistant.model.menu.employee;
 
 import com.example.accountingassistant.model.jpa.FaqRepository;
 import com.example.accountingassistant.model.jpa.User;
+import com.example.accountingassistant.model.menu.base.Menu;
 import com.example.accountingassistant.model.wpapper.SendDocumentWrap;
 import com.example.accountingassistant.model.wpapper.SendMessageWrap;
 import lombok.extern.slf4j.Slf4j;

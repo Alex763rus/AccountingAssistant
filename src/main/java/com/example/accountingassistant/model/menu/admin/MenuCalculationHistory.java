@@ -1,6 +1,7 @@
-package com.example.accountingassistant.model.menu;
+package com.example.accountingassistant.model.menu.admin;
 
 import com.example.accountingassistant.model.jpa.*;
+import com.example.accountingassistant.model.menu.base.Menu;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -57,11 +58,11 @@ public class MenuCalculationHistory extends Menu {
 //        }
 //        val userEmployeeChatId = update.getCallbackQuery().getData();
 //        val dateStart = DateUtils.addDays(new Date(), -7);
-//        val userEmployee = userRepository.findUserByChatId(Long.parseLong(userEmployeeChatId));
+//        val userEmployee = userRepository.findUserByChatId(Integer.parseInt(userEmployeeChatId));
 //        val historyActionsFrom = historyActionRepository.findByChatIdFromEqualsAndActionDateAfter(
-//                Long.parseLong(userEmployeeChatId), dateStart);
+//                Integer.parseInt(userEmployeeChatId), dateStart);
 //        val historyActionsTo = historyActionRepository.findByChatIdToEqualsAndActionDateAfter(
-//                Long.parseLong(userEmployeeChatId), dateStart);
+//                Integer.parseInt(userEmployeeChatId), dateStart);
 //        val historyActions = new ArrayList<HistoryAction>();
 //        historyActions.addAll(historyActionsFrom);
 //        historyActions.addAll(historyActionsTo);
@@ -129,7 +130,7 @@ public class MenuCalculationHistory extends Menu {
 //        if (!update.hasCallbackQuery()) {
 //            return errorMessageDefault(update);
 //        }
-//        val company = companyRepository.findCompanyByCompanyId(Long.parseLong(update.getCallbackQuery().getData()));
+//        val company = companyRepository.findCompanyByCompanyId(Integer.parseInt(update.getCallbackQuery().getData()));
 //        val users = userRepository.findUserByCompany(company);
 //        return showUsers(user, users);
 //    }

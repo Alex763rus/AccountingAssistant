@@ -1,6 +1,7 @@
-package com.example.accountingassistant.model.menu;
+package com.example.accountingassistant.model.menu.base;
 
 import com.example.accountingassistant.model.jpa.User;
+import com.example.accountingassistant.model.menu.base.Menu;
 import com.example.accountingassistant.model.wpapper.SendMessageWrap;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +61,7 @@ public class MenuStart extends Menu {
                 .append("- справочная информация: ").append(COMMAND_FAQ).append(NEW_LINE)
                 .append("- выполнить расчет: ").append(COMMAND_CALCULATION).append(NEW_LINE)
                 .append("- наши контакты: ").append(COMMAND_CONTACT).append(NEW_LINE)
-                .append("- получить KP: ").append(COMMAND_GET_KP).append(NEW_LINE);
+                .append("- получить коммерческое предложение: ").append(COMMAND_OFFER).append(NEW_LINE);
         return menu.toString();
     }
 

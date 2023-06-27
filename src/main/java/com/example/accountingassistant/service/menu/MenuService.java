@@ -2,8 +2,13 @@ package com.example.accountingassistant.service.menu;
 
 import com.example.accountingassistant.model.dictionary.security.Security;
 import com.example.accountingassistant.model.menu.*;
+import com.example.accountingassistant.model.menu.admin.MenuCalculationHistory;
+import com.example.accountingassistant.model.menu.base.MenuDefault;
+import com.example.accountingassistant.model.menu.base.MenuStart;
+import com.example.accountingassistant.model.menu.employee.MenuCalculation;
+import com.example.accountingassistant.model.menu.employee.MenuContact;
+import com.example.accountingassistant.model.menu.employee.MenuFaq;
 import com.example.accountingassistant.model.wpapper.EditMessageTextWrap;
-import com.example.accountingassistant.service.HistoryActionService;
 import com.example.accountingassistant.service.database.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +22,6 @@ import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.accountingassistant.constant.Constant.Command.COMMAND_CALCULATION_HISTORY;
 import static com.example.accountingassistant.constant.Constant.Command.COMMAND_START;
 import static com.example.accountingassistant.enums.State.FREE;
 
@@ -42,13 +46,21 @@ public class MenuService {
 
     @Autowired
     private MenuFaq menuFaq;
+
+    @Autowired
+    private MenuCalculation menuCalculation;
+
     @Autowired
     private MenuStart menuStart;
+
+    @Autowired
+    private MenuContact menuContact;
+
 
     @PostConstruct
     public void init() {
         // Список всех возможных обработчиков меню:
-        security.setMainMenu(List.of(menuStart, menuFaq, menuCalculationHistory));
+        security.setMainMenu(List.of(menuStart, menuFaq, menuCalculationHistory, menuContact, menuCalculation));
     }
 
     public List<PartialBotApiMethod> messageProcess(Update update) {

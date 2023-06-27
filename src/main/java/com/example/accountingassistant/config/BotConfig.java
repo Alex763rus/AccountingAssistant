@@ -46,6 +46,9 @@ public class BotConfig {
     @Value("${input.file.path}")
     String inputFilePath;
 
+    @Value("${input.file.photo.path}")
+    String inputFilePhotoPath;
+
     private String getCurrentPath() {
         return System.getProperty(USER_DIR) + SHIELD;
     }
@@ -58,8 +61,8 @@ public class BotConfig {
         // Настройка команд по ролям:
         val roleAccess = new HashMap<UserRole, List<String>>();
         roleAccess.put(BLOCKED, List.of(COMMAND_DEFAULT, COMMAND_START));
-        roleAccess.put(EMPLOYEE, List.of(COMMAND_DEFAULT, COMMAND_START, COMMAND_FAQ, COMMAND_CALCULATION, COMMAND_CONTACT, COMMAND_GET_KP));
-        roleAccess.put(ADMIN, List.of(COMMAND_DEFAULT, COMMAND_START, COMMAND_FAQ, COMMAND_CALCULATION, COMMAND_CONTACT, COMMAND_GET_KP, COMMAND_NEW_LEADS, COMMAND_ALL_LEADS, COMMAND_CALCULATION_HISTORY));
+        roleAccess.put(EMPLOYEE, List.of(COMMAND_DEFAULT, COMMAND_START, COMMAND_FAQ, COMMAND_CALCULATION, COMMAND_CONTACT, COMMAND_OFFER));
+        roleAccess.put(ADMIN, List.of(COMMAND_DEFAULT, COMMAND_START, COMMAND_FAQ, COMMAND_CALCULATION, COMMAND_CONTACT, COMMAND_OFFER, COMMAND_NEW_LEADS, COMMAND_ALL_LEADS, COMMAND_CALCULATION_HISTORY));
         roleSecurity.setRoleAccess(roleAccess);
 
         return roleSecurity;

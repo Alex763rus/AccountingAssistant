@@ -1,7 +1,10 @@
-package com.example.accountingassistant.model.menu;
+package com.example.accountingassistant.model.menu.base;
 
 import com.example.accountingassistant.config.BotConfig;
+import com.example.accountingassistant.model.jpa.User;
+import com.example.accountingassistant.model.menu.MenuActivity;
 import com.example.accountingassistant.model.wpapper.SendMessageWrap;
+import com.example.accountingassistant.model.wpapper.SendPhotoWrapper;
 import com.example.accountingassistant.service.database.UserService;
 import com.example.accountingassistant.service.excel.ExcelGenerateService;
 import com.example.accountingassistant.service.excel.FileUploadService;
@@ -10,8 +13,10 @@ import com.example.accountingassistant.service.menu.StateService;
 import jakarta.persistence.MappedSuperclass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -59,5 +64,12 @@ public abstract class Menu implements MenuActivity {
                 .build().createSendMessage();
     }
 
+    protected PartialBotApiMethod getMessageContact(User user, Update update) {
+        return SendPhotoWrapper.init()
+                .setChatIdLong(user.getChatId())
+                .setCaption("TODO тут будут ваши контакты и фото")
+                .setPhoto(new InputFile(new File(botConfig.getInputFilePhotoPath())))
+                .build().createMessage();
+    }
 
 }
