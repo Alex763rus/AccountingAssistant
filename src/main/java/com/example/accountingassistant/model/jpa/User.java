@@ -1,5 +1,6 @@
 package com.example.accountingassistant.model.jpa;
 
+import com.example.accountingassistant.enums.LeadExportStatus;
 import com.example.accountingassistant.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -35,6 +36,9 @@ public class User {
 
     @Column(name = "user_name")
     private String userName;
+
+    @Column(name = "lead_export_status")
+    private LeadExportStatus leadExportStatus;
 
     @Column(name = "user_role")
     private UserRole userRole;

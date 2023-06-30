@@ -1,5 +1,6 @@
 package com.example.accountingassistant.service.database;
 
+import com.example.accountingassistant.enums.LeadExportStatus;
 import com.example.accountingassistant.model.jpa.*;
 import com.example.accountingassistant.service.menu.StateService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.sql.Timestamp;
 import java.util.List;
 
-import static com.example.accountingassistant.enums.UserRole.EMPLOYEE;
+import static com.example.accountingassistant.enums.LeadExportStatus.NEW_LEAD;
 import static com.example.accountingassistant.enums.UserRole.UNREGISTERED;
 
 @Slf4j
@@ -61,6 +62,7 @@ public class UserService {
         user.setLastName(chat.getLastName());
         user.setUserName(chat.getUserName());
         user.setUserRole(UNREGISTERED);
+        user.setLeadExportStatus(NEW_LEAD);
         user.setRegisteredAt(new Timestamp(System.currentTimeMillis()));
 
         userRepository.save(user);
@@ -72,7 +74,15 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public List<User> filnAll(User user) {
+    public void saveUser(List<User> users) {
+        userRepository.saveAll(users);
+    }
+
+    public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public List<User> findUserByLeadExportStatus(LeadExportStatus leadExportStatus) {
+        return userRepository.findUserByLeadExportStatus(leadExportStatus);
     }
 }

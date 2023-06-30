@@ -21,7 +21,7 @@ import static com.example.accountingassistant.constant.Constant.Command.COMMAND_
 
 @Component
 @Slf4j
-public class MenuExportAllLeads extends Menu {
+public class MenuExportAllLeads extends MenuExportLeadsBase {
 
     @Override
     public String getMenuComand() {
@@ -47,30 +47,7 @@ public class MenuExportAllLeads extends Menu {
 
     private List<PartialBotApiMethod> exportAllLeadsToExcel(User user, Update update) {
         val userList = userRepository.findAll();
-        List<List<String>> excelData = new ArrayList<>();
-        excelData.add(Arrays.asList("№", "Чат ИД:", "Логин:", "ФИО:", "Телефон:", "Фамилия ТГ:", "Имя ТГ:", "Дата регистрации:"));
-        for (int i = 0; i < userList.size(); ++i) {
-            val userBd = userList.get(i);
-            excelData.add(
-                    Arrays.asList(
-                            String.valueOf(i + 1)
-                            , String.valueOf(userBd.getChatId())
-                            , userBd.getUserName()
-                            , userBd.getFio()
-                            , userBd.getPhone()
-                            , userBd.getFirstName()
-                            , userBd.getLastName()
-                            , String.valueOf(userBd.getRegisteredAt())
-                    )
-            );
-        }
-        stateService.refreshUser(user);
-        return Arrays.asList(
-                SendDocumentWrap.init()
-                        .setChatIdLong(user.getChatId())
-                        .setDocument(excelService.createExcelDocument("Все лиды", excelData))
-                        .setCaption(getDescription())
-                        .build().createMessage());
+        return exportLeadToExcel(user, userList);
     }
 
     @Override
