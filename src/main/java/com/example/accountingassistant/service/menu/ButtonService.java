@@ -15,6 +15,28 @@ import java.util.Map;
 @Service
 public class ButtonService {
 
+    public InlineKeyboardMarkup createVerticalColumnMenu(final int countColumn, Map<String, String> menuDescription) {
+        val inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        val rows = new ArrayList<List<InlineKeyboardButton>>();
+
+        int indexMenu = 1;
+        List<InlineKeyboardButton> rowInline = new ArrayList<>();
+        for (val entry : menuDescription.entrySet()) {
+            val btn = new InlineKeyboardButton();
+            btn.setText(entry.getValue().toString());
+            btn.setCallbackData(entry.getKey().toString());
+            rowInline.add(btn);
+            if (indexMenu % countColumn == 0) {
+                rows.add(rowInline);
+                rowInline = new ArrayList<>();
+            }
+            ++indexMenu;
+        }
+        rows.add(rowInline);
+        inlineKeyboardMarkup.setKeyboard(rows);
+        return inlineKeyboardMarkup;
+    }
+
     public InlineKeyboardMarkup createVerticalMenu(Map<String, String> menuDescription) {
         val inlineKeyboardMarkup = new InlineKeyboardMarkup();
         val rows = new ArrayList<List<InlineKeyboardButton>>();

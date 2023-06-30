@@ -20,6 +20,13 @@ public class User {
     @Id
     @Column(name = "chat_id")
     private Long chatId;
+
+    @Column(name = "fio")
+    private String fio;
+
+    @Column(name = "phone")
+    private String phone;
+
     @Column(name = "first_name")
     private String firstName;
 

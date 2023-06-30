@@ -10,8 +10,10 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import static com.example.accountingassistant.enums.UserRole.EMPLOYEE;
+import static com.example.accountingassistant.enums.UserRole.UNREGISTERED;
 
 @Slf4j
 @Service
@@ -34,7 +36,7 @@ public class UserService {
         return user;
     }
 
-    public void refreshUser(User user){
+    public void refreshUser(User user) {
         stateService.refreshUser(user);
     }
 
@@ -58,12 +60,19 @@ public class UserService {
         user.setFirstName(chat.getFirstName());
         user.setLastName(chat.getLastName());
         user.setUserName(chat.getUserName());
-        user.setUserRole(EMPLOYEE);
-
+        user.setUserRole(UNREGISTERED);
         user.setRegisteredAt(new Timestamp(System.currentTimeMillis()));
 
         userRepository.save(user);
         log.info("user saved: " + user);
         return user;
+    }
+
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public List<User> filnAll(User user) {
+        return userRepository.findAll();
     }
 }

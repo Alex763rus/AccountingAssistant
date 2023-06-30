@@ -20,8 +20,9 @@ public class Calculation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long calculationId;
 
-    @Column(name = "chat_id", nullable = false)
-    private Long chatId;
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "chatId")
+    private User user;
 
     @Column(name = "form")
     private Form form;

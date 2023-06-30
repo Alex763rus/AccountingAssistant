@@ -1,7 +1,6 @@
 package com.example.accountingassistant.model.menu.base;
 
 import com.example.accountingassistant.model.jpa.User;
-import com.example.accountingassistant.model.menu.base.Menu;
 import com.example.accountingassistant.model.wpapper.SendMessageWrap;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +30,10 @@ public class MenuStart extends Menu {
         switch (user.getUserRole()) {
             case BLOCKED:
                 messageText = "Доступ запрещен";
+                break;
+            case UNREGISTERED:
+                messageText = getUnregisteredMenuText(user);
+                break;
             case EMPLOYEE:
                 messageText = getEmployeeMenuText(user);
                 break;
@@ -45,13 +48,22 @@ public class MenuStart extends Menu {
                         .build().createSendMessage());
     }
 
+    private String getUnregisteredMenuText(User user) {
+        val menu = new StringBuilder();
+        menu.append("Здравствуйте!").append(NEW_LINE)
+                .append("Вас приветствует компания TODO название компании").append(NEW_LINE)
+                .append("С помощью данного бота вы можете рассчитать TODO ").append(NEW_LINE)
+                .append("Для продолжения работы, укажите, пожалуйста, свои контактные данные, используя меню: ").append(COMMAND_REGISTER).append(NEW_LINE);
+        return menu.toString();
+    }
+
     private String getAdminMenuText(User user) {
         val menu = new StringBuilder(getEmployeeMenuText(user));
         menu.append(NEW_LINE)
                 .append("Меню администратора: ").append(NEW_LINE)
-                .append("- выгрузить новых лидов: ").append(COMMAND_NEW_LEADS).append(NEW_LINE)
-                .append("- выгрузить всех лидов: ").append(COMMAND_ALL_LEADS).append(NEW_LINE)
-                .append("- выгрузить историю расчетов: ").append(COMMAND_CALCULATION_HISTORY).append(NEW_LINE);
+                .append("- выгрузить новых лидов: ").append(COMMAND_EXPORT_NEW_LEADS).append(NEW_LINE)
+                .append("- выгрузить всех лидов: ").append(COMMAND_EXPORT_ALL_LEADS).append(NEW_LINE)
+                .append("- выгрузить историю расчетов: ").append(COMMAND_EXPORT_CALCULATION_HISTORY).append(NEW_LINE);
         return menu.toString();
     }
 
@@ -61,7 +73,7 @@ public class MenuStart extends Menu {
                 .append("- справочная информация: ").append(COMMAND_FAQ).append(NEW_LINE)
                 .append("- выполнить расчет: ").append(COMMAND_CALCULATION).append(NEW_LINE)
                 .append("- наши контакты: ").append(COMMAND_CONTACT).append(NEW_LINE)
-                .append("- получить коммерческое предложение: ").append(COMMAND_OFFER).append(NEW_LINE);
+                .append("- коммерческое предложение: ").append(COMMAND_OFFER).append(NEW_LINE);
         return menu.toString();
     }
 

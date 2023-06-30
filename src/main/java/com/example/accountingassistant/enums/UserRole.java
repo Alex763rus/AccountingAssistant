@@ -3,6 +3,7 @@ package com.example.accountingassistant.enums;
 public enum UserRole {
 
     BLOCKED("Заблокирован"),
+    UNREGISTERED("Незарегистрирован"),
     EMPLOYEE("Пользователь"),
     ADMIN("Администратор");
 

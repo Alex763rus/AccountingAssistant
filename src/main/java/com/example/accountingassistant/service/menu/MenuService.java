@@ -2,12 +2,16 @@ package com.example.accountingassistant.service.menu;
 
 import com.example.accountingassistant.model.dictionary.security.Security;
 import com.example.accountingassistant.model.menu.*;
-import com.example.accountingassistant.model.menu.admin.MenuCalculationHistory;
+import com.example.accountingassistant.model.menu.admin.export.MenuExportAllLeads;
+import com.example.accountingassistant.model.menu.admin.export.MenuExportCalculationHistory;
+import com.example.accountingassistant.model.menu.admin.export.MenuExportNewLeads;
 import com.example.accountingassistant.model.menu.base.MenuDefault;
 import com.example.accountingassistant.model.menu.base.MenuStart;
 import com.example.accountingassistant.model.menu.employee.MenuCalculation;
 import com.example.accountingassistant.model.menu.employee.MenuContact;
 import com.example.accountingassistant.model.menu.employee.MenuFaq;
+import com.example.accountingassistant.model.menu.employee.MenuOffer;
+import com.example.accountingassistant.model.menu.unregister.MenuRegister;
 import com.example.accountingassistant.model.wpapper.EditMessageTextWrap;
 import com.example.accountingassistant.service.database.UserService;
 import jakarta.annotation.PostConstruct;
@@ -29,6 +33,7 @@ import static com.example.accountingassistant.enums.State.FREE;
 @Service
 public class MenuService {
 
+
     @Autowired
     private MenuDefault menuActivityDefault;
 
@@ -36,7 +41,7 @@ public class MenuService {
     private StateService stateService;
 
     @Autowired
-    private MenuCalculationHistory menuCalculationHistory;
+    private MenuExportCalculationHistory menuExportCalculationHistory;
 
     @Autowired
     private UserService userService;
@@ -56,11 +61,25 @@ public class MenuService {
     @Autowired
     private MenuContact menuContact;
 
+    @Autowired
+    private MenuOffer menuOffer;
+
+    @Autowired
+    private MenuExportAllLeads menuExportAllLeads;
+
+
+    @Autowired
+    private MenuExportNewLeads menuExportNewLeads;
+
+
+    @Autowired
+    private MenuRegister menuRegister;
+
 
     @PostConstruct
     public void init() {
         // Список всех возможных обработчиков меню:
-        security.setMainMenu(List.of(menuStart, menuFaq, menuCalculationHistory, menuContact, menuCalculation));
+        security.setMainMenu(List.of(menuStart, menuFaq, menuExportCalculationHistory, menuContact, menuCalculation, menuRegister, menuOffer, menuExportAllLeads, menuExportNewLeads));
     }
 
     public List<PartialBotApiMethod> messageProcess(Update update) {
@@ -89,9 +108,10 @@ public class MenuService {
         val answer = new ArrayList<PartialBotApiMethod>();
         if (update.hasCallbackQuery()) {
             val message = update.getCallbackQuery().getMessage();
-            val menuName = update.getCallbackQuery().getMessage().getReplyMarkup().getKeyboard().stream()
-                    .filter(e -> e.get(0).getCallbackData().equals(update.getCallbackQuery().getData()))
-                    .findFirst().get().get(0).getText();
+            val menuName = message.getReplyMarkup().getKeyboard().stream()
+                    .flatMap(t -> t.stream())
+                    .filter(e -> e.getCallbackData().equals(update.getCallbackQuery().getData()))
+                    .findFirst().get().getText();
             answer.add(EditMessageTextWrap.init()
                     .setChatIdLong(message.getChatId())
                     .setMessageId(message.getMessageId())

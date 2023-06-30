@@ -16,6 +16,7 @@ public class SendDocumentWrap {
     private String chatIdString;
     private Long chatIdLong;
     private InputFile document;
+    private String caption;
     private InlineKeyboardMarkup inlineKeyboardMarkup;
 
     public SendDocument createMessage() {
@@ -25,6 +26,7 @@ public class SendDocumentWrap {
         sendDocument.setReplyMarkup(inlineKeyboardMarkup);
         sendDocument.setParseMode(PARSE_MODE);
         sendDocument.setDocument(document);
+        sendDocument.setCaption(caption);
         return sendDocument;
     }
 }

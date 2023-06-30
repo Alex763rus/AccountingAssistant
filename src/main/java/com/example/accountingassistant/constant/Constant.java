@@ -17,14 +17,16 @@ public final class Constant {
         public static final String COMMAND_DEFAULT = "/default";
         public static final String COMMAND_START = "/start";
 
+        public static final String COMMAND_REGISTER = "/register";
+
         public static final String COMMAND_FAQ = "/faq";
         public static final String COMMAND_CALCULATION = "/calculation";
         public static final String COMMAND_CONTACT = "/contact";
         public static final String COMMAND_OFFER = "/offer";
 
-        public static final String COMMAND_NEW_LEADS = "/newleads";
-        public static final String COMMAND_ALL_LEADS = "/allleads";
-        public static final String COMMAND_CALCULATION_HISTORY = "/history";
+        public static final String COMMAND_EXPORT_NEW_LEADS = "/newleads";
+        public static final String COMMAND_EXPORT_ALL_LEADS = "/allleads";
+        public static final String COMMAND_EXPORT_CALCULATION_HISTORY = "/history";
 
     }
 

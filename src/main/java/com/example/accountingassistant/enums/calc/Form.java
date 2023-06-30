@@ -10,7 +10,9 @@ public enum Form {
 
     IP("ИП"),
 
-    OOO("ООО");
+    OOO("ООО"),
+
+    MAIN_MENU("Главное меню");
 
     private String title;
 

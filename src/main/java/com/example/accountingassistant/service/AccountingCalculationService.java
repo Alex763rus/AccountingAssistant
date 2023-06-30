@@ -2,6 +2,7 @@ package com.example.accountingassistant.service;
 
 import com.example.accountingassistant.enums.CalculateType;
 import com.example.accountingassistant.enums.calc.Form;
+import com.example.accountingassistant.exception.CalculationException;
 import com.example.accountingassistant.model.CalcData;
 import com.example.accountingassistant.model.jpa.Calculation;
 import jakarta.annotation.PostConstruct;
@@ -11,25 +12,43 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 import static com.example.accountingassistant.constant.Constant.SPACE;
+import static com.example.accountingassistant.enums.CalculateType.EXPERT;
+import static com.example.accountingassistant.enums.CalculateType.STANDART;
 
 @Component
 public class AccountingCalculationService {
 
-    public int calculate(Calculation calculation, CalculateType calculateType) {
-        return gbaCalculate(
-                calculation.getForm().ordinal()
-                , calculation.getMode().ordinal()
-                , calculation.getEmployee().ordinal()
-                , calculation.getMoneyTurnover().ordinal()
-                , calculation.getOperation().ordinal()
-                , calculation.getNdsAgent()
-                , calculation.getNdflAgent()
-                , calculation.getAgencyContract().ordinal()
-                , calculation.getVed().ordinal()
-                , calculation.getDetached()
-                , calculation.getDocumentMatching().ordinal()
-                , calculateType.ordinal()
-        );
+    public boolean checkValidateCalculation(Calculation calculation) {
+        try {
+            calculate(calculation, STANDART);
+            calculate(calculation, EXPERT);
+        } catch (CalculationException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public int calculate(Calculation calculation, CalculateType calculateType) throws CalculationException {
+        try {
+            val calculatedValue =
+                    gbaCalculate(
+                            calculation.getForm().ordinal()
+                            , calculation.getMode().ordinal()
+                            , calculation.getEmployee().ordinal()
+                            , calculation.getMoneyTurnover().ordinal()
+                            , calculation.getOperation().ordinal()
+                            , calculation.getNdsAgent()
+                            , calculation.getNdflAgent()
+                            , calculation.getAgencyContract().ordinal()
+                            , calculation.getVed().ordinal()
+                            , calculation.getDetached()
+                            , calculation.getDocumentMatching().ordinal()
+                            , calculateType.ordinal()
+                    );
+            return (int) (calculatedValue + calculatedValue * 10.0 / 100);
+        } catch (Exception ex) {
+            throw new CalculationException(ex.getMessage());
+        }
     }
 
 

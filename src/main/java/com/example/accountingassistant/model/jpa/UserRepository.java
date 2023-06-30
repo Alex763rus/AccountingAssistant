@@ -10,4 +10,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
     List<User> findUserByUserRole(UserRole userRole);
     User findUserByChatId(Long chatId);
 
+    List<User> findAll();
+
 }

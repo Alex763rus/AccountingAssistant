@@ -2,32 +2,29 @@ package com.example.accountingassistant.model.menu.employee;
 
 import com.example.accountingassistant.model.jpa.User;
 import com.example.accountingassistant.model.menu.base.Menu;
-import com.example.accountingassistant.model.wpapper.SendPhotoWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.example.accountingassistant.constant.Constant.Command.COMMAND_CONTACT;
+import static com.example.accountingassistant.constant.Constant.Command.COMMAND_OFFER;
 
 @Component
 @Slf4j
-public class MenuContact extends Menu {
+public class MenuOffer extends Menu {
 
     @Override
     public String getMenuComand() {
-        return COMMAND_CONTACT;
+        return COMMAND_OFFER;
     }
 
     @Override
     public List<PartialBotApiMethod> menuRun(User user, Update update) {
         stateService.refreshUser(user);
-        return List.of(getMessageContact(user, update));
+        return List.of(getMessageOffer(user, update));
     }
 
     @Override

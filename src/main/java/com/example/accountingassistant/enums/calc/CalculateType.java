@@ -6,19 +6,17 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public enum Mode {
+public enum CalculateType {
 
-    USN_6_PATENT("УСН 6%, патент"),
-    USN_15_USN_6_COMBINATION("УСН 15%, УСН 6%+совмещение"),
-    BASIC("ОСНО"),
-    USN_15_COMBINATION("УСН 15% + совмещение"),
-    BASIC_COMBINATION("ОСНО+совмещение"),
+    CONTINUE_CALCULATE("Продолжить"),
 
-    BACK("Назад");
+    NEW_CALCULATE("Новый"),
+
+    HOME("Главное меню");
 
     private String title;
 
-    Mode(String title) {
+    CalculateType(String title) {
         this.title = title;
     }
 
@@ -26,7 +24,7 @@ public enum Mode {
         return title;
     }
 
-    public static Map<String, String> getValues(){
+    public static Map<String, String> getValues() {
         val btns = new LinkedHashMap<String, String>();
         Arrays.stream(values()).forEach(e -> btns.put(e.name(), e.getTitle()));
         return btns;
