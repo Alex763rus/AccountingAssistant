@@ -55,7 +55,7 @@ public class Calculation {
     private Integer detached;
 
     @Column(name = "document_matching")
-    private DocumentMatching documentMatching;
+    private CashBox cashBox;
 
     @Column(name = "result_standart")
     private Integer resultStandart;

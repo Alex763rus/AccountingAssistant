@@ -1,15 +1,11 @@
 package com.example.accountingassistant.service;
 
 import com.example.accountingassistant.enums.CalculateType;
-import com.example.accountingassistant.enums.calc.Form;
 import com.example.accountingassistant.exception.CalculationException;
 import com.example.accountingassistant.model.CalcData;
 import com.example.accountingassistant.model.jpa.Calculation;
-import jakarta.annotation.PostConstruct;
 import lombok.val;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 
 import static com.example.accountingassistant.constant.Constant.SPACE;
 import static com.example.accountingassistant.enums.CalculateType.EXPERT;
@@ -42,7 +38,7 @@ public class AccountingCalculationService {
                             , calculation.getAgencyContract().ordinal()
                             , calculation.getVed().ordinal()
                             , calculation.getDetached()
-                            , calculation.getDocumentMatching().ordinal()
+                            , calculation.getCashBox().ordinal()
                             , calculateType.ordinal()
                     );
             return (int) (calculatedValue + calculatedValue * 10.0 / 100);
@@ -116,8 +112,23 @@ public class AccountingCalculationService {
         total = total + Integer.parseInt(c6_val);
         int c7_val = Integer.parseInt(CalcData.data[55 - 1][base_offset]) * c7;
         total = total + c7_val;
-        String c8_val = CalcData.data[c8 + 56 - 1][base_offset];
-        total = total + Integer.parseInt(c8_val);
+
+        total = total + getC8val(c8);
         return total;
+    }
+
+    private int getC8val(int c8) {
+        switch (c8) {
+            case 0:
+                return 0;
+            case 1:
+                return 3000;
+            case 2:
+                return 5000;
+            case 3:
+                return 10000;
+            default:
+                return 0;
+        }
     }
 }

@@ -70,8 +70,8 @@ public class MenuStart extends Menu {
     private String getEmployeeMenuText(User user) {
         val menu = new StringBuilder();
         menu.append("Главное меню:").append(NEW_LINE)
-                .append("- справочная информация: ").append(COMMAND_FAQ).append(NEW_LINE)
                 .append("- выполнить расчет: ").append(COMMAND_CALCULATION).append(NEW_LINE)
+                .append("- справочная информация: ").append(COMMAND_FAQ).append(NEW_LINE)
                 .append("- наши контакты: ").append(COMMAND_CONTACT).append(NEW_LINE)
                 .append("- коммерческое предложение: ").append(COMMAND_OFFER).append(NEW_LINE);
         return menu.toString();

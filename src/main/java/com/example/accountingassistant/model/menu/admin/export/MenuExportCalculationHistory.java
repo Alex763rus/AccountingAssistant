@@ -3,13 +3,11 @@ package com.example.accountingassistant.model.menu.admin.export;
 import com.example.accountingassistant.model.jpa.*;
 import com.example.accountingassistant.model.menu.base.Menu;
 import com.example.accountingassistant.model.wpapper.SendDocumentWrap;
-import com.example.accountingassistant.model.wpapper.SendMessageWrap;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.*;
@@ -70,7 +68,7 @@ public class MenuExportCalculationHistory extends Menu {
                             , calculation.getAgencyContract().getTitle()
                             , calculation.getVed().getTitle()
                             , String.valueOf(calculation.getDetached())
-                            , calculation.getDocumentMatching().getTitle()
+                            , calculation.getCashBox().getTitle()
                             , String.valueOf(Optional.ofNullable(calculation.getResultStandart()).orElse(0))
                             , String.valueOf(Optional.ofNullable(calculation.getResultExpert()).orElse(0))
 

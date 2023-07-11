@@ -61,13 +61,24 @@ public class MenuFaq extends Menu {
         val filePath = faq.getFilePath();
         answer.add(SendMessageWrap.init()
                 .setChatIdLong(update.getCallbackQuery().getMessage().getChatId())
-                .setText("Ответ: " + faq.getAnswer())
+                .setText(faq.getAnswer())
                 .build().createSendMessage());
         if (filePath != null) {
-            answer.add(SendDocumentWrap.init()
-                    .setChatIdLong(user.getChatId())
-                    .setDocument(new InputFile(new File(filePath)))
-                    .build().createMessage());
+            val file = new File(filePath);
+            if (file.isDirectory()) {
+                val files = file.listFiles();
+                for (File fileInFolder : files) {
+                    answer.add(SendDocumentWrap.init()
+                            .setChatIdLong(user.getChatId())
+                            .setDocument(new InputFile(fileInFolder))
+                            .build().createMessage());
+                }
+            } else {
+                answer.add(SendDocumentWrap.init()
+                        .setChatIdLong(user.getChatId())
+                        .setDocument(new InputFile(file))
+                        .build().createMessage());
+            }
         }
         stateService.setState(user, FREE);
         return answer;

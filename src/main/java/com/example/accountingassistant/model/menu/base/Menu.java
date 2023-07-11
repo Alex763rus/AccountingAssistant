@@ -5,6 +5,7 @@ import com.example.accountingassistant.exception.InputCallbackException;
 import com.example.accountingassistant.exception.InputLongException;
 import com.example.accountingassistant.model.jpa.User;
 import com.example.accountingassistant.model.menu.MenuActivity;
+import com.example.accountingassistant.model.wpapper.EditMessageTextWrap;
 import com.example.accountingassistant.model.wpapper.SendDocumentWrap;
 import com.example.accountingassistant.model.wpapper.SendMessageWrap;
 import com.example.accountingassistant.model.wpapper.SendPhotoWrapper;
@@ -21,7 +22,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.accountingassistant.constant.Constant.NEW_LINE;
 import static javax.swing.text.html.parser.DTDConstants.EMPTY;
@@ -68,10 +71,38 @@ public abstract class Menu implements MenuActivity {
     }
 
     protected PartialBotApiMethod getMessageContact(User user, Update update) {
+        val contactText = new StringBuilder();
+        contactText.append("Добрый день!").append(NEW_LINE)
+                .append("Я - Людмила, руководитель компании Дечизо Главбух.").append(NEW_LINE)
+                .append("Я предприниматель.").append(NEW_LINE)
+                .append("Я такая же, как вы, и не хочу  платить налоги.").append(NEW_LINE)
+                .append("Но, как руководитель бухгалтерской компании, я знаю, как правильно их платить.").append(NEW_LINE)
+                .append(NEW_LINE)
+                .append("Контакты:").append(NEW_LINE)
+                .append("позвонить: +79037995128").append(NEW_LINE);
+
+        val menuDescription = new LinkedList<LinkedList<String>>();
+        val btn1 = new LinkedList<String>();
+        btn1.add("key1");
+        btn1.add("WhatsApp");
+        btn1.add("https://wa.me/79037995128/");
+        val btn2 = new LinkedList<String>();
+        btn2.add("key2");
+        btn2.add("Telegram");
+        btn2.add("t.me/glavbuh_lchur/");
+        val btn3 = new LinkedList<String>();
+        btn3.add("key3");
+        btn3.add("Подпишись на наш канал");
+        btn3.add("t.me/usnkalmykia/");
+        menuDescription.add(btn1);
+        menuDescription.add(btn2);
+        menuDescription.add(btn3);
+        val btns = buttonService.createVerticalColumnMenuTest(2, menuDescription);
         return SendPhotoWrapper.init()
                 .setChatIdLong(user.getChatId())
-                .setCaption("TODO тут будут ваши контакты и фото:")
+                .setCaption(contactText.toString())
                 .setPhoto(new InputFile(new File(botConfig.getInputFilePhotoPath())))
+                .setInlineKeyboardMarkup(btns)
                 .build().createMessage();
     }
 

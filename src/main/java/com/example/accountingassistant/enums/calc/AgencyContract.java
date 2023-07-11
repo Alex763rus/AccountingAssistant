@@ -10,11 +10,11 @@ import java.util.Map;
 public enum AgencyContract {
 
     AGENCY_CONTRACT_NO("нет"),
-    AGENCY_CONTRACT_10("до 10 позиций"),
-    AGENCY_CONTRACT_100("от 11 до  100 позиций"),
-    AGENCY_CONTRACT_300("от 101 до 300  позиций"),
-    AGENCY_CONTRACT_500("от 301 до 500 позиций"),
-    AGENCY_CONTRACT_1000("от 501 до 1000 позиций"),
+    AGENCY_CONTRACT_10("до 10 арт."),
+    AGENCY_CONTRACT_100("11 - 100 арт."),
+    AGENCY_CONTRACT_300("101 - 300 арт."),
+    AGENCY_CONTRACT_500("301 - 500 арт."),
+    AGENCY_CONTRACT_1000("501 - 1000 арт."),
 
     BACK("Назад");
 

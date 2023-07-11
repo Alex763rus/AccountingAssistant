@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public enum MoneyTurnover {
-    MONEY_TURNOVER_10("от 0 до 10 млн"),
+    MONEY_TURNOVER_10("0 - 10"),
     MONEY_TURNOVER_15("до 15"),
     MONEY_TURNOVER_20("до 20"),
     MONEY_TURNOVER_25("до 25"),
@@ -15,7 +15,7 @@ public enum MoneyTurnover {
     MONEY_TURNOVER_35("до 35"),
     MONEY_TURNOVER_40("до 40"),
     MONEY_TURNOVER_45("до 45"),
-    MONEY_TURNOVER_50("до 50 млн"),
+    MONEY_TURNOVER_50("до 50"),
 
     BACK("Назад");
 

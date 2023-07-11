@@ -32,6 +32,7 @@ public final class Constant {
 
     public static String APP_NAME = "accountingassistant";
     public static String PARSE_MODE = "Markdown";
+    public static String BACK = "Назад";
 
     public static String USER_DIR = "user.dir";
     public static String WHITE_LIST_FILE_NAME = "WhiteListUsers.json";

@@ -105,18 +105,11 @@ public class MenuService {
                 menuActivity = menuActivityDefault;
             }
         }
+
         val answer = new ArrayList<PartialBotApiMethod>();
-        if (update.hasCallbackQuery()) {
-            val message = update.getCallbackQuery().getMessage();
-            val menuName = message.getReplyMarkup().getKeyboard().stream()
-                    .flatMap(t -> t.stream())
-                    .filter(e -> e.getCallbackData().equals(update.getCallbackQuery().getData()))
-                    .findFirst().get().getText();
-            answer.add(EditMessageTextWrap.init()
-                    .setChatIdLong(message.getChatId())
-                    .setMessageId(message.getMessageId())
-                    .setText("Выбрано меню: " + menuName)
-                    .build().createMessage());
+        val editButton = menuActivity.replaceButton(update, user);
+        if(editButton != null){
+            answer.add(editButton);
         }
         answer.addAll(menuActivity.menuRun(user, update));
         if (stateService.getState(user) == FREE && !menuActivity.getMenuComand().equals(menuStart.getMenuComand())) {

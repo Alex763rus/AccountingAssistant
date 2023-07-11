@@ -3,7 +3,10 @@ package com.example.accountingassistant.model.wpapper;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import lombok.val;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+
+import java.util.List;
 
 import static com.example.accountingassistant.constant.Constant.PARSE_MODE;
 
@@ -16,7 +19,7 @@ public class EditMessageTextWrap {
     private Long chatIdLong;
     private String text;
 
-    public EditMessageText createMessage() {
+    public PartialBotApiMethod createMessage() {
         val editMessageText = new EditMessageText();
         editMessageText.setMessageId(messageId);
         val chatId = chatIdString == null ? String.valueOf(chatIdLong) : chatIdString;
@@ -24,5 +27,9 @@ public class EditMessageTextWrap {
         editMessageText.setText(text);
         editMessageText.setParseMode(PARSE_MODE);
         return editMessageText;
+    }
+
+    public List<PartialBotApiMethod> createMessageList() {
+        return List.of(createMessage());
     }
 }
