@@ -1,18 +1,18 @@
 package com.example.accountingassistant.bot;
 
 import com.example.accountingassistant.config.BotConfig;
-import com.example.accountingassistant.enums.Emoji;
 import com.example.accountingassistant.service.TelegramBot;
 import com.vdurmont.emoji.EmojiParser;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
+import org.example.tgcommons.enums.Emoji;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import static com.example.accountingassistant.constant.Constant.PARSE_MODE;
+import static org.example.tgcommons.constant.Constant.Telegramm.PARSE_MODE;
 
 @Service
 @Slf4j

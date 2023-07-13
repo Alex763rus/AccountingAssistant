@@ -1,30 +1,19 @@
 package com.example.accountingassistant.model.menu.unregister;
 
-import com.example.accountingassistant.enums.UserRole;
-import com.example.accountingassistant.model.jpa.FaqRepository;
 import com.example.accountingassistant.model.jpa.User;
 import com.example.accountingassistant.model.menu.base.Menu;
-import com.example.accountingassistant.model.wpapper.SendDocumentWrap;
-import com.example.accountingassistant.model.wpapper.SendMessageWrap;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.tgcommons.model.wrapper.SendMessageWrap;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import static com.example.accountingassistant.constant.Constant.Command.COMMAND_FAQ;
 import static com.example.accountingassistant.constant.Constant.Command.COMMAND_REGISTER;
-import static com.example.accountingassistant.constant.Constant.NEW_LINE;
 import static com.example.accountingassistant.enums.State.*;
 import static com.example.accountingassistant.enums.UserRole.EMPLOYEE;
 

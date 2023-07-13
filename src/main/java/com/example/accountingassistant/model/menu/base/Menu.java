@@ -5,16 +5,15 @@ import com.example.accountingassistant.exception.InputCallbackException;
 import com.example.accountingassistant.exception.InputLongException;
 import com.example.accountingassistant.model.jpa.User;
 import com.example.accountingassistant.model.menu.MenuActivity;
-import com.example.accountingassistant.model.wpapper.EditMessageTextWrap;
-import com.example.accountingassistant.model.wpapper.SendDocumentWrap;
-import com.example.accountingassistant.model.wpapper.SendMessageWrap;
-import com.example.accountingassistant.model.wpapper.SendPhotoWrapper;
 import com.example.accountingassistant.service.database.UserService;
 import com.example.accountingassistant.service.excel.ExcelService;
 import com.example.accountingassistant.service.menu.ButtonService;
 import com.example.accountingassistant.service.menu.StateService;
 import jakarta.persistence.MappedSuperclass;
 import lombok.val;
+import org.example.tgcommons.model.wrapper.SendDocumentWrap;
+import org.example.tgcommons.model.wrapper.SendMessageWrap;
+import org.example.tgcommons.model.wrapper.SendPhotoWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -24,10 +23,9 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-import static com.example.accountingassistant.constant.Constant.NEW_LINE;
 import static javax.swing.text.html.parser.DTDConstants.EMPTY;
+import static org.example.tgcommons.constant.Constant.TextConstants.NEW_LINE;
 
 @MappedSuperclass
 public abstract class Menu implements MenuActivity {

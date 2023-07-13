@@ -1,10 +1,7 @@
 package com.example.accountingassistant.model.menu.admin.export;
 
-import com.example.accountingassistant.model.jpa.CalculationHistoryRepository;
 import com.example.accountingassistant.model.jpa.User;
 import com.example.accountingassistant.model.jpa.UserRepository;
-import com.example.accountingassistant.model.menu.base.Menu;
-import com.example.accountingassistant.model.wpapper.SendDocumentWrap;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -17,6 +17,9 @@ import java.util.List;
 import static com.example.accountingassistant.constant.Constant.*;
 import static com.example.accountingassistant.constant.Constant.Command.*;
 import static com.example.accountingassistant.enums.UserRole.*;
+import static org.example.tgcommons.constant.Constant.Command.COMMAND_DEFAULT;
+import static org.example.tgcommons.constant.Constant.Command.COMMAND_START;
+import static org.example.tgcommons.constant.Constant.TextConstants.SHIELD;
 
 @Configuration
 @Data

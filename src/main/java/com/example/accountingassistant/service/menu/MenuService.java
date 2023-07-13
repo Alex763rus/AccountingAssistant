@@ -12,7 +12,6 @@ import com.example.accountingassistant.model.menu.employee.MenuContact;
 import com.example.accountingassistant.model.menu.employee.MenuFaq;
 import com.example.accountingassistant.model.menu.employee.MenuOffer;
 import com.example.accountingassistant.model.menu.unregister.MenuRegister;
-import com.example.accountingassistant.model.wpapper.EditMessageTextWrap;
 import com.example.accountingassistant.service.database.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +25,8 @@ import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.accountingassistant.constant.Constant.Command.COMMAND_START;
 import static com.example.accountingassistant.enums.State.FREE;
+import static org.example.tgcommons.constant.Constant.Command.COMMAND_START;
 
 @Slf4j
 @Service

@@ -2,9 +2,9 @@ package com.example.accountingassistant.model.menu.admin.export;
 
 import com.example.accountingassistant.model.jpa.*;
 import com.example.accountingassistant.model.menu.base.Menu;
-import com.example.accountingassistant.model.wpapper.SendDocumentWrap;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.example.tgcommons.model.wrapper.SendDocumentWrap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;

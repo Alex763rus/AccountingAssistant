@@ -10,7 +10,7 @@ import lombok.ToString;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-import static com.example.accountingassistant.constant.Constant.EMPTY;
+import static org.apache.el.parser.ELParserConstants.EMPTY;
 
 @Getter
 @Setter

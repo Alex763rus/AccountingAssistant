@@ -1,9 +1,8 @@
 package com.example.accountingassistant.model.menu.base;
 
 import com.example.accountingassistant.model.jpa.User;
-import com.example.accountingassistant.model.menu.base.Menu;
-import com.example.accountingassistant.model.wpapper.SendMessageWrap;
 import lombok.extern.slf4j.Slf4j;
+import org.example.tgcommons.model.wrapper.SendMessageWrap;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -11,8 +10,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.example.accountingassistant.constant.Constant.Command.COMMAND_DEFAULT;
-import static com.example.accountingassistant.utils.StringUtils.prepareShield;
+import static org.example.tgcommons.constant.Constant.Command.COMMAND_DEFAULT;
+import static org.example.tgcommons.utils.StringUtils.prepareShield;
 
 @Component
 @Slf4j

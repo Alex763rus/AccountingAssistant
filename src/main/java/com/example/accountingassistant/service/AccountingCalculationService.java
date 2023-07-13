@@ -7,9 +7,9 @@ import com.example.accountingassistant.model.jpa.Calculation;
 import lombok.val;
 import org.springframework.stereotype.Component;
 
-import static com.example.accountingassistant.constant.Constant.SPACE;
 import static com.example.accountingassistant.enums.CalculateType.EXPERT;
 import static com.example.accountingassistant.enums.CalculateType.STANDART;
+import static org.example.tgcommons.constant.Constant.TextConstants.SPACE;
 
 @Component
 public class AccountingCalculationService {

@@ -1,12 +1,11 @@
 package com.example.accountingassistant.model.menu;
 
 import com.example.accountingassistant.model.jpa.User;
-import com.example.accountingassistant.model.wpapper.EditMessageTextWrap;
 import lombok.val;
+import org.example.tgcommons.model.wrapper.EditMessageTextWrap;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

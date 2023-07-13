@@ -2,10 +2,9 @@ package com.example.accountingassistant.model.menu.admin.export;
 
 import com.example.accountingassistant.model.jpa.User;
 import com.example.accountingassistant.model.menu.base.Menu;
-import com.example.accountingassistant.model.wpapper.SendDocumentWrap;
 import lombok.val;
+import org.example.tgcommons.model.wrapper.SendDocumentWrap;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -2,7 +2,7 @@ package com.example.accountingassistant.exception;
 
 import lombok.val;
 
-import static com.example.accountingassistant.constant.Constant.NEW_LINE;
+import static org.example.tgcommons.constant.Constant.TextConstants.NEW_LINE;
 
 public class InputLongException extends RuntimeException {
     public InputLongException(String message, int maxValue) {

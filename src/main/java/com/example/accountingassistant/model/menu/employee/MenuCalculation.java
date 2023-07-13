@@ -7,11 +7,11 @@ import com.example.accountingassistant.model.jpa.Calculation;
 import com.example.accountingassistant.model.jpa.CalculationHistoryRepository;
 import com.example.accountingassistant.model.jpa.User;
 import com.example.accountingassistant.model.menu.base.Menu;
-import com.example.accountingassistant.model.wpapper.EditMessageTextWrap;
-import com.example.accountingassistant.model.wpapper.SendMessageWrap;
 import com.example.accountingassistant.service.AccountingCalculationService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.example.tgcommons.model.wrapper.EditMessageTextWrap;
+import org.example.tgcommons.model.wrapper.SendMessageWrap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
@@ -22,12 +22,12 @@ import java.util.*;
 
 import static com.example.accountingassistant.constant.Constant.BACK;
 import static com.example.accountingassistant.constant.Constant.Command.COMMAND_CALCULATION;
-import static com.example.accountingassistant.constant.Constant.NEW_LINE;
 import static com.example.accountingassistant.enums.CalculateType.EXPERT;
 import static com.example.accountingassistant.enums.CalculateType.STANDART;
 import static com.example.accountingassistant.enums.State.*;
 import static com.example.accountingassistant.enums.calc.Form.IP;
 import static com.example.accountingassistant.enums.calc.Form.MAIN_MENU;
+import static org.example.tgcommons.constant.Constant.TextConstants.NEW_LINE;
 
 @Component
 @Slf4j
