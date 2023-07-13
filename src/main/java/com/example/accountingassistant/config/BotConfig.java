@@ -35,11 +35,6 @@ public class BotConfig {
     @Value("${admin.chatid}")
     String adminChatId;
 
-    @Value("${service.file_info.uri}")
-    String fileInfoUri;
-
-    @Value("${service.file_storage.uri}")
-    String fileStorageUri;
     @Autowired
     ObjectMapper objectMapper;
 

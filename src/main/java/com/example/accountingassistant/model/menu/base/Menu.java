@@ -78,9 +78,10 @@ public abstract class Menu implements MenuActivity {
                 .append("Я такая же, как вы, и не хочу  платить налоги.").append(NEW_LINE)
                 .append("Но, как руководитель бухгалтерской компании, я знаю, как правильно их платить.").append(NEW_LINE)
                 .append(NEW_LINE)
-                .append("Контакты:").append(NEW_LINE)
-                .append("позвонить: +79037995128").append(NEW_LINE);
-
+                .append("Свяжитесь удобным для вас способом:").append(NEW_LINE)
+                .append("позвонить: +79037995128").append(NEW_LINE)
+                .append("Написать в чат:").append(NEW_LINE);
+        ;
         val menuDescription = new LinkedList<LinkedList<String>>();
         val btn1 = new LinkedList<String>();
         btn1.add("key1");

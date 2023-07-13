@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,8 +33,7 @@ public class MenuStart extends Menu {
                 messageText = "Доступ запрещен";
                 break;
             case UNREGISTERED:
-                messageText = getUnregisteredMenuText(user);
-                break;
+                return getUnregisteredMenuText(user, update);
             case EMPLOYEE:
                 messageText = getEmployeeMenuText(user);
                 break;
@@ -48,13 +48,18 @@ public class MenuStart extends Menu {
                         .build().createSendMessage());
     }
 
-    private String getUnregisteredMenuText(User user) {
+    private List<PartialBotApiMethod> getUnregisteredMenuText(User user, Update update) {
         val menu = new StringBuilder();
-        menu.append("Здравствуйте!").append(NEW_LINE)
-                .append("Вас приветствует компания TODO название компании").append(NEW_LINE)
-                .append("С помощью данного бота вы можете рассчитать TODO ").append(NEW_LINE)
-                .append("Для продолжения работы, укажите, пожалуйста, свои контактные данные, используя меню: ").append(COMMAND_REGISTER).append(NEW_LINE);
-        return menu.toString();
+        val answer = new ArrayList<PartialBotApiMethod>();
+        answer.add(getMessageContact(user, update));
+        val messageText = new StringBuilder();
+        messageText.append("Для продолжения работы, укажите, пожалуйста, свои контактные данные, используя меню: ")
+                .append(COMMAND_REGISTER).append(NEW_LINE);
+        answer.add(SendMessageWrap.init()
+                .setChatIdLong(user.getChatId())
+                .setText(EmojiParser.parseToUnicode(messageText.toString()))
+                .build().createSendMessage());
+        return answer;
     }
 
     private String getAdminMenuText(User user) {

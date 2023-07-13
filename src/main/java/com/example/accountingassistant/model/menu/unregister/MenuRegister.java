@@ -47,8 +47,9 @@ public class MenuRegister extends Menu {
                     return registerWaitFioLogic(user, update);
                 case REGISTER_WAIT_PHONE:
                     return registerWaitPhoneLogic(user, update);
+                default:
+                    return errorMessageDefault(update);
             }
-            return errorMessageDefault(update);
         } catch (Exception ex) {
             log.error(ex.toString());
             return errorMessage(update, ex.toString());
