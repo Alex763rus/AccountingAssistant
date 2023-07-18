@@ -91,7 +91,7 @@ public abstract class Menu implements MenuActivity {
         btn2.add("t.me/glavbuh_lchur/");
         val btn3 = new LinkedList<String>();
         btn3.add("key3");
-        btn3.add("Подпишись на наш канал");
+        btn3.add("Подпишитесь на наш канал");
         btn3.add("t.me/usnkalmykia/");
         menuDescription.add(btn1);
         menuDescription.add(btn2);
@@ -102,14 +102,6 @@ public abstract class Menu implements MenuActivity {
                 .setCaption(contactText.toString())
                 .setPhoto(new InputFile(new File(botConfig.getInputFilePhotoPath())))
                 .setInlineKeyboardMarkup(btns)
-                .build().createMessage();
-    }
-
-    protected PartialBotApiMethod getMessageOffer(User user, Update update) {
-        return SendDocumentWrap.init()
-                .setChatIdLong(user.getChatId())
-                .setCaption("TODO тут будет ваше коммерческое предложение:")
-                .setDocument(new InputFile(new File(botConfig.getInputFileOfferPath())))
                 .build().createMessage();
     }
 
