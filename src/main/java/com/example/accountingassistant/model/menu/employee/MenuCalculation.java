@@ -276,7 +276,8 @@ public class MenuCalculation extends Menu {
         calculation.setNdflAgent(0);
         try {
             val calcStandart = calculationService.calculate(calculation, STANDART) / 100 * 100 + 90;
-            val calcExpert = calculationService.calculate(calculation, EXPERT) / 100 * 100 + 90;
+            val calcExpert = ((int) (calcStandart + calcStandart * 40.0 / 100)) / 100 * 100 + 90;
+
             calculation.setResultStandart(calcStandart);
             calculation.setResultExpert(calcExpert);
             text.append("Расчет по введенным данным завершен.").append(NEW_LINE)
@@ -284,7 +285,7 @@ public class MenuCalculation extends Menu {
                     .append(" - Эксперт: от ").append(calcExpert);
         } catch (CalculationException ex) {
             log.info("Неудачный расчет с параметрами:" + calculation);
-            text.append("Расчет по введенным данным выполнить невозможно.");
+            text.append("Проконсультироваться по индивидуальному запросу");
         }
         calculation.setUser(user);
         calculation.setCalculationDate(new Timestamp(System.currentTimeMillis()));

@@ -14,15 +14,15 @@ import static org.example.tgcommons.constant.Constant.TextConstants.SPACE;
 @Component
 public class AccountingCalculationService {
 
-    public boolean checkValidateCalculation(Calculation calculation) {
-        try {
-            calculate(calculation, STANDART);
-            calculate(calculation, EXPERT);
-        } catch (CalculationException e) {
-            return false;
-        }
-        return true;
-    }
+//    public boolean checkValidateCalculation(Calculation calculation) {
+//        try {
+//            calculate(calculation, STANDART);
+//            calculate(calculation, EXPERT);
+//        } catch (CalculationException e) {
+//            return false;
+//        }
+//        return true;
+//    }
 
     public int calculate(Calculation calculation, CalculateType calculateType) throws CalculationException {
         try {
