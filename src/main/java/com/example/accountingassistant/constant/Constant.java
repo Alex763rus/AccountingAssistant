@@ -7,12 +7,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public final class Constant {
     @NoArgsConstructor(access = PRIVATE)
-    public final class App {
-
-    }
-
-    @NoArgsConstructor(access = PRIVATE)
-    public final class Command {
+    public static final class Command {
 
         public static final String COMMAND_REGISTER = "/register";
 
@@ -27,8 +22,15 @@ public final class Constant {
 
     }
 
-    public static String APP_NAME = "accountingassistant";
-    public static String BACK = "Назад";
-    public static String USER_DIR = "user.dir";
+    @NoArgsConstructor(access = PRIVATE)
+    public static final class ConfigParams {
+        public static final String INPUT_FILE_PATH = "${input.file.path}";
+        public static final String INPUT_FILE_PHOTO_PATH = "${input.file.photo.path}";
+        public static final String INPUT_FILE_OFFER_PATH = "${input.file.offer.path}";
+
+    }
+    public static final String APP_NAME = "accountingassistant";
+    public static final String BACK = "Назад";
+
 
 }

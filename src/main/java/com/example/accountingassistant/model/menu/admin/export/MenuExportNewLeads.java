@@ -14,7 +14,7 @@ import static com.example.accountingassistant.constant.Constant.Command.COMMAND_
 import static com.example.accountingassistant.enums.LeadExportStatus.EXPORTED_LEAD;
 import static com.example.accountingassistant.enums.LeadExportStatus.NEW_LEAD;
 
-@Component
+@Component(COMMAND_EXPORT_NEW_LEADS)
 @Slf4j
 public class MenuExportNewLeads extends MenuExportLeadsBase {
 

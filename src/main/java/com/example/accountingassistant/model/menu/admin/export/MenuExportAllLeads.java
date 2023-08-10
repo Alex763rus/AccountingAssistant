@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static com.example.accountingassistant.constant.Constant.Command.COMMAND_EXPORT_ALL_LEADS;
 
-@Component
+@Component(COMMAND_EXPORT_ALL_LEADS)
 @Slf4j
 public class MenuExportAllLeads extends MenuExportLeadsBase {
 

@@ -16,6 +16,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.Serializable;
+
 @Component
 @Slf4j
 public class TelegramBot extends TelegramLongPollingBot {
@@ -51,14 +53,14 @@ public class TelegramBot extends TelegramLongPollingBot {
         val answers = menuService.messageProcess(update);
         for (val answer : answers) {
             try {
-                if (answer instanceof BotApiMethod) {
-                    execute((BotApiMethod) answer);
+                if (answer instanceof BotApiMethod<? extends Serializable> botApiMethod) {
+                    execute(botApiMethod);
                 }
-                if (answer instanceof SendDocument) {
-                    execute((SendDocument) answer);
+                if (answer instanceof SendDocument sendDocument) {
+                    execute(sendDocument);
                 }
-                if (answer instanceof SendPhoto) {
-                    execute((SendPhoto) answer);
+                if (answer instanceof SendPhoto sendPhoto) {
+                    execute(sendPhoto);
                 }
             } catch (TelegramApiException e) {
                 log.error("Ошибка во время обработки сообщения: " + e.getMessage());

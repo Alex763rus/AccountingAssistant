@@ -23,10 +23,7 @@ public class StateService {
     }
 
     public State getState(User user) {
-        if (!userState.containsKey(user)) {
-            userState.put(user, FREE);
-        }
-        return userState.get(user);
+        return userState.computeIfAbsent(user, k -> FREE);
     }
 
     public MenuActivity getMenu(User user) {
@@ -34,26 +31,27 @@ public class StateService {
     }
 
     public User getUser(Long chatId) {
-        User user = userState.entrySet().stream()
+        return userState.entrySet().stream()
                 .filter(entry -> (long) entry.getKey().getChatId() == (chatId))
                 .findFirst().map(Map.Entry::getKey)
                 .orElse(null);
-        return user;
     }
 
     public void setMenu(User user, MenuActivity mainMenu) {
         userMenu.put(user, mainMenu);
         userState.put(user, FREE);
     }
+
     public void deleteUser(User user) {
         userMenu.remove(user);
         userState.remove(user);
     }
+
     public void clearOldState() {
         userState.entrySet().removeIf(e -> e.getValue() == FREE);
     }
 
-    public void refreshUser(User user){
+    public void refreshUser(User user) {
         deleteUser(getUser(user.getChatId()));
         setState(user, FREE);
     }

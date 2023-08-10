@@ -14,7 +14,7 @@ import java.util.*;
 
 import static com.example.accountingassistant.constant.Constant.Command.*;
 
-@Component
+@Component(COMMAND_EXPORT_CALCULATION_HISTORY)
 @Slf4j
 public class MenuExportCalculationHistory extends Menu {
 

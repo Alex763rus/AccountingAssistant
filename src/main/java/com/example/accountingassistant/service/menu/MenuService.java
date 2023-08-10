@@ -32,6 +32,11 @@ import static org.example.tgcommons.constant.Constant.Command.COMMAND_START;
 @Service
 public class MenuService {
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private Security security;
 
     @Autowired
     private MenuDefault menuActivityDefault;
@@ -40,59 +45,15 @@ public class MenuService {
     private StateService stateService;
 
     @Autowired
-    private MenuExportCalculationHistory menuExportCalculationHistory;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private Security security;
-
-    @Autowired
-    private MenuFaq menuFaq;
-
-    @Autowired
-    private MenuCalculation menuCalculation;
-
-    @Autowired
     private MenuStart menuStart;
-
-    @Autowired
-    private MenuContact menuContact;
-
-    @Autowired
-    private MenuOffer menuOffer;
-
-    @Autowired
-    private MenuExportAllLeads menuExportAllLeads;
-
-
-    @Autowired
-    private MenuExportNewLeads menuExportNewLeads;
-
-
-    @Autowired
-    private MenuRegister menuRegister;
-
-
-    @PostConstruct
-    public void init() {
-        // Список всех возможных обработчиков меню:
-        security.setMainMenu(List.of(menuStart, menuFaq, menuExportCalculationHistory, menuContact, menuCalculation, menuRegister, menuOffer, menuExportAllLeads, menuExportNewLeads));
-    }
 
     public List<PartialBotApiMethod> messageProcess(Update update) {
         val user = userService.getUser(update);
         MenuActivity menuActivity = null;
         if (update.hasMessage()) {
-            for (val menu : security.getMainMenu()) {
-                if (menu.getMenuComand().equals(update.getMessage().getText())) {
-                    if (security.checkAccess(user, menu.getMenuComand())) {
-                        menuActivity = menu;
-                    } else {
-                        menuActivity = menuActivityDefault;
-                    }
-                }
+            val menu = security.getMenuActivity(update.getMessage().getText());
+            if (menu != null) {
+                menuActivity = security.checkAccess(user, menu.getMenuComand()) ? menu : menuActivityDefault;
             }
         }
         if (menuActivity != null) {
@@ -107,7 +68,7 @@ public class MenuService {
 
         val answer = new ArrayList<PartialBotApiMethod>();
         val editButton = menuActivity.replaceButton(update, user);
-        if(editButton != null){
+        if (editButton != null) {
             answer.add(editButton);
         }
         answer.addAll(menuActivity.menuRun(user, update));
@@ -118,20 +79,8 @@ public class MenuService {
     }
 
     public List<BotCommand> getMainMenuComands() {
-        val listofCommands = new ArrayList<BotCommand>();
-        security.getMainMenu().stream()
-                .filter(e -> e.getMenuComand().equals(COMMAND_START))
-                .forEach(e -> listofCommands.add(new BotCommand(e.getMenuComand(), e.getDescription())));
-        return listofCommands;
+        val menu = security.getMenuActivity(COMMAND_START);
+        return List.of(new BotCommand(menu.getMenuComand(), menu.getDescription()));
     }
 
-    private String getChatId(Update update) {
-        if (update.hasMessage()) {
-            return String.valueOf(update.getMessage().getChatId());
-        }
-        if (update.hasCallbackQuery()) {
-            return String.valueOf(update.getCallbackQuery().getMessage().getChatId());
-        }
-        return null;
-    }
 }

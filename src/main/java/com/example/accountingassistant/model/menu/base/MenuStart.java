@@ -17,7 +17,7 @@ import static com.example.accountingassistant.constant.Constant.Command.*;
 import static org.example.tgcommons.constant.Constant.Command.COMMAND_START;
 import static org.example.tgcommons.constant.Constant.TextConstants.NEW_LINE;
 
-@Component
+@Component(COMMAND_START)
 @Slf4j
 public class MenuStart extends Menu {
 
@@ -36,35 +36,32 @@ public class MenuStart extends Menu {
             case UNREGISTERED:
                 return getUnregisteredMenuText(user, update);
             case EMPLOYEE:
-                messageText = getEmployeeMenuText(user);
+                messageText = getEmployeeMenuText();
                 break;
             case ADMIN:
                 messageText = getAdminMenuText(user);
                 break;
         }
-        return Arrays.asList(
-                SendMessageWrap.init()
-                        .setChatIdLong(user.getChatId())
-                        .setText(EmojiParser.parseToUnicode(messageText))
-                        .build().createSendMessage());
+        return SendMessageWrap.init()
+                .setChatIdLong(user.getChatId())
+                .setText(EmojiParser.parseToUnicode(messageText))
+                .build().createMessageList();
     }
 
     private List<PartialBotApiMethod> getUnregisteredMenuText(User user, Update update) {
-        val menu = new StringBuilder();
         val answer = new ArrayList<PartialBotApiMethod>();
         answer.add(getMessageContact(user, update));
-        val messageText = new StringBuilder();
-        messageText.append("Для продолжения работы, укажите, пожалуйста, свои контактные данные, используя меню: ")
-                .append(COMMAND_REGISTER).append(NEW_LINE);
+        String messageText = "Для продолжения работы, укажите, пожалуйста, свои контактные данные, используя меню: " +
+                COMMAND_REGISTER + NEW_LINE;
         answer.add(SendMessageWrap.init()
                 .setChatIdLong(user.getChatId())
-                .setText(EmojiParser.parseToUnicode(messageText.toString()))
-                .build().createSendMessage());
+                .setText(EmojiParser.parseToUnicode(messageText))
+                .build().createMessage());
         return answer;
     }
 
     private String getAdminMenuText(User user) {
-        val menu = new StringBuilder(getEmployeeMenuText(user));
+        val menu = new StringBuilder(getEmployeeMenuText());
         menu.append(NEW_LINE)
                 .append("Меню администратора: ").append(NEW_LINE)
                 .append("- выгрузить новых лидов: ").append(COMMAND_EXPORT_NEW_LEADS).append(NEW_LINE)
@@ -73,7 +70,7 @@ public class MenuStart extends Menu {
         return menu.toString();
     }
 
-    private String getEmployeeMenuText(User user) {
+    private String getEmployeeMenuText() {
         val menu = new StringBuilder();
         menu.append("Главное меню:").append(NEW_LINE)
                 .append("- выполнить расчет: ").append(COMMAND_CALCULATION).append(NEW_LINE)

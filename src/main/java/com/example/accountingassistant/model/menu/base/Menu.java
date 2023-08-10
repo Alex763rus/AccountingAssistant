@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import static javax.swing.text.html.parser.DTDConstants.EMPTY;
+import static org.example.tgcommons.constant.Constant.TextConstants.EMPTY;
 import static org.example.tgcommons.constant.Constant.TextConstants.NEW_LINE;
 
 @MappedSuperclass
@@ -48,24 +48,24 @@ public abstract class Menu implements MenuActivity {
     private static final String DEFAULT_TEXT_ERROR = "Ошибка! Команда не найдена";
 
     protected List<PartialBotApiMethod> errorMessageDefault(Update update) {
-        return Arrays.asList(SendMessageWrap.init()
+        return SendMessageWrap.init()
                 .setChatIdLong(update.getMessage().getChatId())
                 .setText(DEFAULT_TEXT_ERROR)
-                .build().createSendMessage());
+                .build().createMessageList();
     }
 
     protected List<PartialBotApiMethod> errorMessage(Update update, String message) {
-        return Arrays.asList(SendMessageWrap.init()
+        return SendMessageWrap.init()
                 .setChatIdLong(update.getMessage().getChatId())
                 .setText(message)
-                .build().createSendMessage());
+                .build().createMessageList();
     }
 
     protected PartialBotApiMethod createAdminMessage(String message) {
         return SendMessageWrap.init()
                 .setChatIdString(botConfig.getAdminChatId())
                 .setText(message)
-                .build().createSendMessage();
+                .build().createMessage();
     }
 
     protected PartialBotApiMethod getMessageContact(User user, Update update) {
@@ -79,7 +79,6 @@ public abstract class Menu implements MenuActivity {
                 .append("Свяжитесь удобным для вас способом:").append(NEW_LINE)
                 .append("позвонить: +79037995128").append(NEW_LINE)
                 .append("Написать в чат:").append(NEW_LINE);
-        ;
         val menuDescription = new LinkedList<LinkedList<String>>();
         val btn1 = new LinkedList<String>();
         btn1.add("key1");

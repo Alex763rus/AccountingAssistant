@@ -24,7 +24,7 @@ import java.util.List;
 import static com.example.accountingassistant.constant.Constant.Command.COMMAND_FAQ;
 import static com.example.accountingassistant.enums.State.*;
 
-@Component
+@Component(COMMAND_FAQ)
 @Slf4j
 public class MenuFaq extends Menu {
 
@@ -39,13 +39,11 @@ public class MenuFaq extends Menu {
     @Override
     public List<PartialBotApiMethod> menuRun(User user, Update update) {
         try {
-            switch (stateService.getState(user)) {
-                case FREE:
-                    return freelogic(user, update);
-                case FAQ_WAIT_QUESTION:
-                    return faqWaitQuestionLogic(user, update);
-            }
-            return errorMessageDefault(update);
+            return switch (stateService.getState(user)) {
+                case FREE -> freelogic(user, update);
+                case FAQ_WAIT_QUESTION -> faqWaitQuestionLogic(user, update);
+                default -> errorMessageDefault(update);
+            };
         } catch (Exception ex) {
             log.error(ex.toString());
             return errorMessage(update, ex.toString());
@@ -62,7 +60,7 @@ public class MenuFaq extends Menu {
         answer.add(SendMessageWrap.init()
                 .setChatIdLong(update.getCallbackQuery().getMessage().getChatId())
                 .setText(faq.getAnswer())
-                .build().createSendMessage());
+                .build().createMessage());
         if (filePath != null) {
             val file = new File(filePath);
             if (file.isDirectory()) {
@@ -87,21 +85,21 @@ public class MenuFaq extends Menu {
     private List<PartialBotApiMethod> freelogic(User user, Update update) {
         val faq = faqRepository.findAll();
         if (faq.size() == 0) {
-            return Arrays.asList(SendMessageWrap.init()
+            return SendMessageWrap.init()
                     .setChatIdLong(user.getChatId())
                     .setText("Отсутствуют данные для faq, обратитесь к администратору")
-                    .build().createSendMessage());
+                    .build().createMessageList();
         }
         val btns = new LinkedHashMap<String, String>();
         for (int i = 0; i < faq.size(); ++i) {
             btns.put(String.valueOf(faq.get(i).getFaqId()), faq.get(i).getQuestion());
         }
         stateService.setState(user, FAQ_WAIT_QUESTION);
-        return Arrays.asList(SendMessageWrap.init()
+        return SendMessageWrap.init()
                 .setChatIdLong(update.getMessage().getChatId())
                 .setText("Выберете интересующий вопрос:")
                 .setInlineKeyboardMarkup(buttonService.createVerticalMenu(btns))
-                .build().createSendMessage());
+                .build().createMessageList();
     }
 
     @Override

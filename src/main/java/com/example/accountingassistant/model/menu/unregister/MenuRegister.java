@@ -17,7 +17,7 @@ import static com.example.accountingassistant.constant.Constant.Command.COMMAND_
 import static com.example.accountingassistant.enums.State.*;
 import static com.example.accountingassistant.enums.UserRole.EMPLOYEE;
 
-@Component
+@Component(COMMAND_REGISTER)
 @Slf4j
 public class MenuRegister extends Menu {
 
@@ -31,7 +31,7 @@ public class MenuRegister extends Menu {
         try {
             switch (stateService.getState(user)) {
                 case FREE:
-                    return freelogic(user, update);
+                    return freelogic(user);
                 case REGISTER_WAIT_FIO:
                     return registerWaitFioLogic(user, update);
                 case REGISTER_WAIT_PHONE:
@@ -51,10 +51,10 @@ public class MenuRegister extends Menu {
         user.setUserRole(EMPLOYEE);
         userService.saveUser(user);
         stateService.deleteUser(user);
-        return List.of(SendMessageWrap.init()
+        return SendMessageWrap.init()
                 .setChatIdLong(user.getChatId())
                 .setText("Контактные данные успешно сохранены, бот готов к работе!")
-                .build().createSendMessage());
+                .build().createMessageList();
     }
 
     private List<PartialBotApiMethod> registerWaitFioLogic(User user, Update update) {
@@ -64,18 +64,18 @@ public class MenuRegister extends Menu {
         user.setFio(update.getMessage().getText());
         userService.saveUser(user);
         stateService.setState(user, REGISTER_WAIT_PHONE);
-        return List.of(SendMessageWrap.init()
+        return SendMessageWrap.init()
                 .setChatIdLong(user.getChatId())
                 .setText("Шаг 2/2 Укажите ваш телефон, используя только цифры, (пример 88007777777):")
-                .build().createSendMessage());
+                .build().createMessageList();
     }
 
-    private List<PartialBotApiMethod> freelogic(User user, Update update) throws ParseException, IOException {
+    private List<PartialBotApiMethod> freelogic(User user) throws ParseException, IOException {
         stateService.setState(user, REGISTER_WAIT_FIO);
-        return List.of(SendMessageWrap.init()
+        return SendMessageWrap.init()
                 .setChatIdLong(user.getChatId())
                 .setText("Шаг 1/2 Укажите ваше ФИО:")
-                .build().createSendMessage());
+                .build().createMessageList();
     }
 
 

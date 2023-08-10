@@ -70,7 +70,4 @@ public class User {
         return Objects.hash(getChatId());
     }
 
-    public String getNameOrFirst() {
-        return userName != null && !userName.equals(EMPTY) ? userName : firstName;
-    }
 }

@@ -22,14 +22,13 @@ import java.util.*;
 
 import static com.example.accountingassistant.constant.Constant.BACK;
 import static com.example.accountingassistant.constant.Constant.Command.COMMAND_CALCULATION;
-import static com.example.accountingassistant.enums.CalculateType.EXPERT;
 import static com.example.accountingassistant.enums.CalculateType.STANDART;
 import static com.example.accountingassistant.enums.State.*;
 import static com.example.accountingassistant.enums.calc.Form.IP;
 import static com.example.accountingassistant.enums.calc.Form.MAIN_MENU;
 import static org.example.tgcommons.constant.Constant.TextConstants.NEW_LINE;
 
-@Component
+@Component(COMMAND_CALCULATION)
 @Slf4j
 public class MenuCalculation extends Menu {
 
@@ -44,16 +43,16 @@ public class MenuCalculation extends Menu {
     @Autowired
     private AccountingCalculationService calculationService;
 
-    private Map<User, Calculation> calcTmp = new HashMap();
-    private Map<User, State> lastState = new HashMap();
-    private Map<User, String> lastButtonMenu = new HashMap();
+    private final Map<User, Calculation> calcTmp = new HashMap<>();
+    private final Map<User, State> lastState = new HashMap<>();
+    private final Map<User, String> lastButtonMenu = new HashMap<>();
 
     @Override
     public List<PartialBotApiMethod> menuRun(User user, Update update) {
         try {
             val calculation = calcTmp.getOrDefault(user, new Calculation());
             if (stateService.getState(user) == FREE && lastState.get(user) != null && lastState.get(user) != FREE && lastState.get(user) != CALC_WAIT_FORM) {
-                return waitContinueLogic(user, update, calculation);
+                return waitContinueLogic(user);
             }
             if (stateService.getState(user) == CALC_WAIT_TYPE) {
                 return calcWaitTypeLogic(user, update, calculation);
@@ -73,7 +72,7 @@ public class MenuCalculation extends Menu {
         }
         val message = update.getCallbackQuery().getMessage();
         val menuName = message.getReplyMarkup().getKeyboard().stream()
-                .flatMap(t -> t.stream())
+                .flatMap(Collection::stream)
                 .filter(e -> e.getCallbackData().equals(update.getCallbackQuery().getData()))
                 .findFirst().get().getText();
         return EditMessageTextWrap.init()
@@ -84,29 +83,19 @@ public class MenuCalculation extends Menu {
     }
 
     private List<PartialBotApiMethod> stateProcessing(User user, Update update, Calculation calculation) {
-        switch (stateService.getState(user)) {
-            case FREE:
-                return questFreeLogic(user, update, calculation);
-            case CALC_WAIT_FORM:
-                return questCalcWaitFormLogic(user, update, calculation);
-            case CALC_WAIT_MODE:
-                return questCalcWaitModeLogic(user, update, calculation);
-            case CALC_WAIT_EMPLOYEE:
-                return questCalcWaitEmployeeLogic(user, update, calculation);
-            case CALC_WAIT_MONEY_TURNOVER:
-                return questCalcWaitMoneyTurnoverLogic(user, update, calculation);
-            case CALC_WAIT_OPERATION:
-                return questCalcWaitOperationLogic(user, update, calculation);
-            case CALC_WAIT_AGENCY_CONTRACT:
-                return questCalcWaitAgencyContractLogic(user, update, calculation);
-            case CALC_WAIT_VED:
-                return questCalcWaitVedLogic(user, update, calculation);
-            case CALC_WAIT_DETACHED:
-                return questCalcWaitDetachedLogic(user, update, calculation);
-            case CALC_WAIT_DOCUMENT_MATCHING:
-                return finishLogic(user, update, calculation);
-        }
-        return errorMessageDefault(update);
+        return switch (stateService.getState(user)) {
+            case FREE -> questFreeLogic(user, calculation);
+            case CALC_WAIT_FORM -> questCalcWaitFormLogic(user, update, calculation);
+            case CALC_WAIT_MODE -> questCalcWaitModeLogic(user, update, calculation);
+            case CALC_WAIT_EMPLOYEE -> questCalcWaitEmployeeLogic(user, update, calculation);
+            case CALC_WAIT_MONEY_TURNOVER -> questCalcWaitMoneyTurnoverLogic(user, update, calculation);
+            case CALC_WAIT_OPERATION -> questCalcWaitOperationLogic(user, update, calculation);
+            case CALC_WAIT_AGENCY_CONTRACT -> questCalcWaitAgencyContractLogic(user, update, calculation);
+            case CALC_WAIT_VED -> questCalcWaitVedLogic(user, update, calculation);
+            case CALC_WAIT_DETACHED -> questCalcWaitDetachedLogic(user, update, calculation);
+            case CALC_WAIT_DOCUMENT_MATCHING -> finishLogic(user, update, calculation);
+            default -> errorMessageDefault(update);
+        };
     }
 
     private List<PartialBotApiMethod> calcWaitTypeLogic(User user, Update update, Calculation calculation) {
@@ -120,21 +109,20 @@ public class MenuCalculation extends Menu {
                 return stateProcessing(user, update, calculation);
             case NEW_CALCULATE:
                 lastState.remove(user);
-                return questFreeLogic(user, update, calculation);
+                return questFreeLogic(user, calculation);
         }
         return errorMessageDefault(update);
     }
 
-    private List<PartialBotApiMethod> waitContinueLogic(User user, Update update, Calculation calculation) {
+    private List<PartialBotApiMethod> waitContinueLogic(User user) {
         return calcBtnProcess(user, CalculateType.getValues(), CALC_WAIT_TYPE, 2, "У вас есть незавершенный опрос. Продолжить?");
     }
 
-    private List<PartialBotApiMethod> questFreeLogic(User user, Update update, Calculation calculation) {
+    private List<PartialBotApiMethod> questFreeLogic(User user, Calculation calculation) {
         calcTmp.put(user, calculation);
-        val text = new StringBuilder();
-        text.append("Для выполнения расчета необходимо ответить на 11 вопросов.").append("1/9 Укажите форму:");
+        String text = "Для выполнения расчета необходимо ответить на 11 вопросов." + NEW_LINE + "1/9 Укажите форму:";
         lastButtonMenu.put(user, "Форма");
-        return calcBtnProcess(user, Form.getValues(), CALC_WAIT_FORM, 2, text.toString());
+        return calcBtnProcess(user, Form.getValues(), CALC_WAIT_FORM, 2, text);
     }
 
     private List<PartialBotApiMethod> questCalcWaitFormLogic(User user, Update update, Calculation calculation) {
@@ -152,7 +140,7 @@ public class MenuCalculation extends Menu {
         try {
             val btn = Mode.valueOf(getInputCallback(user, update));
             if (btn.getTitle().equals(BACK)) {
-                return questFreeLogic(user, update, calculation);
+                return questFreeLogic(user, calculation);
             }
             calculation.setMode(btn);
         } catch (IllegalArgumentException ex) {
@@ -294,36 +282,35 @@ public class MenuCalculation extends Menu {
         lastState.remove(user);
         stateService.refreshUser(user);
 
-        val answer = Arrays.asList(SendMessageWrap.init()
+        return Arrays.asList(SendMessageWrap.init()
                         .setChatIdLong(user.getChatId())
                         .setText(text.toString())
-                        .build().createSendMessage()
+                        .build().createMessage()
                 , getMessageContact(user, update));
-        return answer;
     }
 
     private PartialBotApiMethod editBackMessage(Long chatId) {
         return SendMessageWrap.init()
                 .setChatIdLong(chatId)
                 .setText("Выбрано меню: назад")
-                .build().createSendMessage();
+                .build().createMessage();
     }
 
     private List<PartialBotApiMethod> calcBtnProcess(User user, Map btns, State state, int countColumn, String text) {
         stateService.setState(user, state);
-        return Arrays.asList(SendMessageWrap.init()
+        return SendMessageWrap.init()
                 .setChatIdLong(user.getChatId())
                 .setText(text)
                 .setInlineKeyboardMarkup(buttonService.createVerticalColumnMenu(countColumn, btns))
-                .build().createSendMessage());
+                .build().createMessageList();
     }
 
     private List<PartialBotApiMethod> calcLongProcess(User user, State state, String text) {
         stateService.setState(user, state);
-        return Arrays.asList(SendMessageWrap.init()
+        return SendMessageWrap.init()
                 .setChatIdLong(user.getChatId())
                 .setText(text + NEW_LINE + " Шаг назад: /back")
-                .build().createSendMessage());
+                .build().createMessageList();
     }
 
     @Override

@@ -11,7 +11,7 @@ import java.util.List;
 
 import static com.example.accountingassistant.constant.Constant.Command.COMMAND_CONTACT;
 
-@Component
+@Component(COMMAND_CONTACT)
 @Slf4j
 public class MenuContact extends Menu {
 

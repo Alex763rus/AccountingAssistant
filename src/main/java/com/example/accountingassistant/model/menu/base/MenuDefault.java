@@ -24,11 +24,10 @@ public class MenuDefault extends Menu {
 
     @Override
     public List<PartialBotApiMethod> menuRun(User user, Update update) {
-        return Arrays.asList(
-                SendMessageWrap.init()
-                        .setChatIdLong(update.getMessage().getChatId())
-                        .setText("Не найдена доступная команда с именем: " + prepareShield(update.getMessage().getText()))
-                        .build().createSendMessage());
+        return SendMessageWrap.init()
+                .setChatIdLong(update.getMessage().getChatId())
+                .setText("Не найдена доступная команда с именем: " + prepareShield(update.getMessage().getText()))
+                .build().createMessageList();
     }
 
     @Override

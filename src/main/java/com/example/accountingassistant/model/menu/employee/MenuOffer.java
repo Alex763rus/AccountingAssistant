@@ -13,11 +13,13 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.accountingassistant.constant.Constant.Command.COMMAND_CONTACT;
 import static com.example.accountingassistant.constant.Constant.Command.COMMAND_OFFER;
+import static java.util.Objects.requireNonNull;
 
-@Component
+@Component(COMMAND_OFFER)
 @Slf4j
 public class MenuOffer extends Menu {
 
@@ -28,10 +30,9 @@ public class MenuOffer extends Menu {
 
     @Override
     public List<PartialBotApiMethod> menuRun(User user, Update update) {
-        val answer = new ArrayList<PartialBotApiMethod>();
         val path = new File(botConfig.getInputFileOfferPath());
         if (path.isDirectory()) {
-            val file = path.listFiles()[0];
+            val file = requireNonNull(path.listFiles())[0];
             stateService.refreshUser(user);
             return List.of(SendDocumentWrap.init()
                     .setChatIdLong(user.getChatId())
