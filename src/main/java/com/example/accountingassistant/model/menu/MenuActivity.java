@@ -6,6 +6,7 @@ import org.example.tgcommons.model.wrapper.EditMessageTextWrap;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -23,7 +24,7 @@ public interface MenuActivity {
         }
         val message = update.getCallbackQuery().getMessage();
         val menuName = message.getReplyMarkup().getKeyboard().stream()
-                .flatMap(t -> t.stream())
+                .flatMap(Collection::stream)
                 .filter(e -> e.getCallbackData().equals(update.getCallbackQuery().getData()))
                 .findFirst().get().getText();
         return EditMessageTextWrap.init()

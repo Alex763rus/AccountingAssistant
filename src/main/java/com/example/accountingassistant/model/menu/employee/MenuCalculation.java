@@ -10,12 +10,15 @@ import com.example.accountingassistant.model.menu.base.Menu;
 import com.example.accountingassistant.service.AccountingCalculationService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.example.tgcommons.model.button.Button;
+import org.example.tgcommons.model.button.ButtonsDescription;
 import org.example.tgcommons.model.wrapper.EditMessageTextWrap;
 import org.example.tgcommons.model.wrapper.SendMessageWrap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -27,6 +30,7 @@ import static com.example.accountingassistant.enums.State.*;
 import static com.example.accountingassistant.enums.calc.Form.IP;
 import static com.example.accountingassistant.enums.calc.Form.MAIN_MENU;
 import static org.example.tgcommons.constant.Constant.TextConstants.NEW_LINE;
+import static org.example.tgcommons.utils.ButtonUtils.createVerticalColumnMenu;
 
 @Component(COMMAND_CALCULATION)
 @Slf4j
@@ -296,12 +300,21 @@ public class MenuCalculation extends Menu {
                 .build().createMessage();
     }
 
-    private List<PartialBotApiMethod> calcBtnProcess(User user, Map btns, State state, int countColumn, String text) {
+    private List<PartialBotApiMethod> calcBtnProcess(User user, Map<String, String> btns, State state, int countColumn, String text) {
+        val buttons = new ArrayList<Button>();
+        for (val entry : btns.entrySet()) {
+            buttons.add(Button.init().setKey(entry.getKey()).setValue(entry.getValue()).build());
+        }
+        val buttonsDescription = ButtonsDescription.init()
+                .setCountColumn(countColumn)
+                .setButtons(buttons)
+                .build();
+
         stateService.setState(user, state);
         return SendMessageWrap.init()
                 .setChatIdLong(user.getChatId())
                 .setText(text)
-                .setInlineKeyboardMarkup(buttonService.createVerticalColumnMenu(countColumn, btns))
+                .setInlineKeyboardMarkup(createVerticalColumnMenu(buttonsDescription))
                 .build().createMessageList();
     }
 

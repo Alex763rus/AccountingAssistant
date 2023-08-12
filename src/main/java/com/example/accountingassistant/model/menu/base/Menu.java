@@ -7,11 +7,11 @@ import com.example.accountingassistant.model.jpa.User;
 import com.example.accountingassistant.model.menu.MenuActivity;
 import com.example.accountingassistant.service.database.UserService;
 import com.example.accountingassistant.service.excel.ExcelService;
-import com.example.accountingassistant.service.menu.ButtonService;
 import com.example.accountingassistant.service.menu.StateService;
 import jakarta.persistence.MappedSuperclass;
 import lombok.val;
-import org.example.tgcommons.model.wrapper.SendDocumentWrap;
+import org.example.tgcommons.model.button.Button;
+import org.example.tgcommons.model.button.ButtonsDescription;
 import org.example.tgcommons.model.wrapper.SendMessageWrap;
 import org.example.tgcommons.model.wrapper.SendPhotoWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +20,12 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.example.tgcommons.constant.Constant.TextConstants.EMPTY;
 import static org.example.tgcommons.constant.Constant.TextConstants.NEW_LINE;
+import static org.example.tgcommons.utils.ButtonUtils.createVerticalColumnMenu;
 
 @MappedSuperclass
 public abstract class Menu implements MenuActivity {
@@ -38,9 +38,6 @@ public abstract class Menu implements MenuActivity {
 
     @Autowired
     protected ExcelService excelService;
-
-    @Autowired
-    protected ButtonService buttonService;
 
     @Autowired
     protected UserService userService;
@@ -79,28 +76,21 @@ public abstract class Menu implements MenuActivity {
                 .append("Свяжитесь удобным для вас способом:").append(NEW_LINE)
                 .append("позвонить: +79037995128").append(NEW_LINE)
                 .append("Написать в чат:").append(NEW_LINE);
-        val menuDescription = new LinkedList<LinkedList<String>>();
-        val btn1 = new LinkedList<String>();
-        btn1.add("key1");
-        btn1.add("WhatsApp");
-        btn1.add("https://wa.me/79037995128/");
-        val btn2 = new LinkedList<String>();
-        btn2.add("key2");
-        btn2.add("Telegram");
-        btn2.add("t.me/glavbuh_lchur/");
-        val btn3 = new LinkedList<String>();
-        btn3.add("key3");
-        btn3.add("Подпишитесь на наш канал");
-        btn3.add("t.me/usnkalmykia/");
-        menuDescription.add(btn1);
-        menuDescription.add(btn2);
-        menuDescription.add(btn3);
-        val btns = buttonService.createVerticalColumnMenuTest(2, menuDescription);
+
+        val btns = ButtonsDescription.init()
+                .setCountColumn(2)
+                .setButtons(new ArrayList<>(List.of(
+                        Button.init().setKey("key1").setValue("WhatsApp").setLink("https://wa.me/79037995128/").build(),
+                        Button.init().setKey("key2").setValue("Telegram").setLink("t.me/glavbuh_lchur/").build(),
+                        Button.init().setKey("key3").setValue("Подпишитесь на наш канал").setLink("t.me/usnkalmykia/").build()
+                )))
+                .build();
+
         return SendPhotoWrapper.init()
                 .setChatIdLong(user.getChatId())
                 .setCaption(contactText.toString())
                 .setPhoto(new InputFile(new File(botConfig.getInputFilePhotoPath())))
-                .setInlineKeyboardMarkup(btns)
+                .setInlineKeyboardMarkup(createVerticalColumnMenu(btns))
                 .build().createMessage();
     }
 

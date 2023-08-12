@@ -1,10 +1,13 @@
 package com.example.accountingassistant.model.menu.employee;
 
+import com.example.accountingassistant.model.jpa.Faq;
 import com.example.accountingassistant.model.jpa.FaqRepository;
 import com.example.accountingassistant.model.jpa.User;
 import com.example.accountingassistant.model.menu.base.Menu;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.example.tgcommons.model.button.Button;
+import org.example.tgcommons.model.button.ButtonsDescription;
 import org.example.tgcommons.model.wrapper.SendDocumentWrap;
 import org.example.tgcommons.model.wrapper.SendMessageWrap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +20,11 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import static com.example.accountingassistant.constant.Constant.Command.COMMAND_FAQ;
 import static com.example.accountingassistant.enums.State.*;
+import static org.example.tgcommons.utils.ButtonUtils.createVerticalColumnMenu;
 
 @Component(COMMAND_FAQ)
 @Slf4j
@@ -90,15 +92,20 @@ public class MenuFaq extends Menu {
                     .setText("Отсутствуют данные для faq, обратитесь к администратору")
                     .build().createMessageList();
         }
-        val btns = new LinkedHashMap<String, String>();
-        for (int i = 0; i < faq.size(); ++i) {
-            btns.put(String.valueOf(faq.get(i).getFaqId()), faq.get(i).getQuestion());
+        val buttons = new ArrayList<Button>();
+        for (Faq value : faq) {
+            buttons.add(Button.init().setKey(String.valueOf(value.getFaqId())).setValue(value.getQuestion()).build());
         }
+        val buttonsDescription = ButtonsDescription.init()
+                .setCountColumn(1)
+                .setButtons(buttons)
+                .build();
+
         stateService.setState(user, FAQ_WAIT_QUESTION);
         return SendMessageWrap.init()
                 .setChatIdLong(update.getMessage().getChatId())
                 .setText("Выберете интересующий вопрос:")
-                .setInlineKeyboardMarkup(buttonService.createVerticalMenu(btns))
+                .setInlineKeyboardMarkup(createVerticalColumnMenu(buttonsDescription))
                 .build().createMessageList();
     }
 
